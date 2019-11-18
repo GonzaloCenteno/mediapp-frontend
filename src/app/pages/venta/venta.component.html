@@ -1,0 +1,104 @@
+<p-card header="REGISTRO DE VENTAS" subheader="LISTADO DE VENTAS" styleClass="ui-card-content">
+    <p-header>
+        VENTAS
+    </p-header>
+
+    <form [formGroup]="ventasForm" [formGroup]="form" (ngSubmit)="guardarDatos()" #frmVentas="ngForm">
+        <p-panel header="FORMLARIO DE PRODUCTOS">
+            <div class="ui-grid ui-grid-responsive ui-grid-pad ui-fluid" style="margin: 10px 0px">
+                <div class="ui-grid-row">
+                    <span class="ui-float-label">
+                        <input id="float-input" type="hidden"
+                            class="ui-inputtext ui-corner-all ui-state-default ui-widget" size="30" pInputText
+                            formControlName="id" autocomplete="off">
+                    </span>
+                </div>
+                <div class="ui-g-12">
+                    <div class="ui-g-2">
+                        <label for="nombres">PERSONA</label>
+                    </div>
+                    <div class="ui-g-6">
+                        <p-dropdown [options]="personas" formControlName="persona" [(ngModel)]="persona" placeholder="SELECCIONAR UNA PERSONA"
+                            [showClear]="true"></p-dropdown>
+                    </div>
+                </div>
+                <div class="ui-g-12">
+                    <div class="ui-g-2">
+                        <label for="importe">IMPORTE</label>
+                    </div>
+                    <div class="ui-g-6">
+                        <input id="float-input" type="number"
+                            class="ui-inputtext ui-corner-all ui-state-default ui-widget" size="10" pInputText
+                            formControlName="importe" autocomplete="off" [(ngModel)]="importe">
+                    </div>
+                </div>
+
+                <div class="ui-g-12">
+                    <div class="ui-g-2">
+                        <label for="producto">PRODUCTO</label>
+                    </div>
+                    <div class="ui-g-4">
+                        <p-dropdown [options]="productos" formControlName="producto" [(ngModel)]="producto"
+                            placeholder="SELECCIONAR UN PRODUCTO" [showClear]="true"></p-dropdown>
+                    </div>
+
+                    <div class="ui-g-2">
+                        <label for="cantidad">CANTIDAD</label>
+                    </div>
+                    <div class="ui-g-4">
+                        <input id="float-input" type="number" [(ngModel)]="cantidad"
+                            class="ui-inputtext ui-corner-all ui-state-default ui-widget" size="10" pInputText
+                            formControlName="cantidad" autocomplete="off">
+                    </div>
+                </div>
+
+                <button pButton label="AGREGAR DETALLE" type="button" (click)="agregarDetalle()" class="ui-button-success"></button>
+
+            </div>
+
+            <p-accordion *ngFor="let d of detalleVenta; let i=index">
+                <p-accordionTab header="DETALLE - {{ i + 1}}">
+                    <div class="ui-grid ui-grid-responsive ui-grid-pad ui-fluid" style="margin: 10px 0px">
+                        <div class="ui-g-12">
+                            <div class="ui-g-2">
+                                <h3 class="first">PRODUCTO</h3>
+                            </div>
+                            <div class="ui-g-4">
+                                <h3>{{ d.producto.idProducto }}</h3>
+                            </div>
+
+                            <div class="ui-g-2">
+                                <h3 class="first">CANTIDAD</h3>
+                            </div>
+                            <div class="ui-g-4">
+                                <h3>{{ d.cantidad }}</h3>
+                            </div>
+                        </div>
+                    </div>
+                </p-accordionTab>
+                <button pButton label="REMOVER DETALLE" (click)="removerDetalle(i)" class="ui-button-danger"></button>
+            </p-accordion>
+
+            <br>
+
+            <div class="ui-grid-row">
+                <div class="ui-grid-col-2"></div>
+                <div class="ui-grid-col-6">
+                    <button pButton type="submit" label="GUARDAR DATOS" [disabled]="frmVentas.invalid"></button>
+                </div>
+                <div class="ui-grid-col-4"></div>
+            </div>
+        </p-panel>
+    </form>
+
+    <p-toast [style]="{marginTop: '80px'}"></p-toast>
+
+    <br>
+    <!-- <p-toast [style]="{marginTop: '80px'}"></p-toast>
+    <p-confirmDialog [style]="{width: '30vw'}"></p-confirmDialog> -->
+
+    <p-footer>
+        <!-- <button pButton type="button" label="Save" icon="pi pi-check" style="margin-right: .25em"></button>
+            <button pButton type="button" label="Cancel" icon="pi pi-times" class="ui-button-secondary"></button> -->
+    </p-footer>
+</p-card>

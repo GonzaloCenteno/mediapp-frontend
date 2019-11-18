@@ -1,0 +1,96 @@
+<p-card header="MANTENIMIENTO PRODUCTOS" subheader="LISTADO DE PRODUCTOS" styleClass="ui-card-content">
+    <p-header>
+        PRODUCTOS
+    </p-header>
+
+    <form [formGroup]="productoForm" #frmProducto="ngForm" (ngSubmit)="operar()">
+        <p-panel header="FORMLARIO DE PRODUCTOS" *ngIf="formulario">
+            <div class="ui-grid ui-grid-responsive ui-grid-pad ui-fluid" style="margin: 10px 0px">
+                <div class="ui-grid-row">
+                    <span class="ui-float-label">
+                        <input id="float-input" type="hidden"
+                            class="ui-inputtext ui-corner-all ui-state-default ui-widget" size="30" pInputText
+                            formControlName="id" autocomplete="off">
+                    </span>
+                </div>
+                <div class="ui-g-12">
+                    <div class="ui-g-2">
+                        <label for="nombres">NOMBRE</label>
+                    </div>
+                    <div class="ui-g-6">
+                        <input id="float-input" type="text"
+                            class="ui-inputtext ui-corner-all ui-state-default ui-widget" size="30" pInputText
+                            formControlName="nombre" autocomplete="off">
+                    </div>
+                </div>
+                <div class="ui-g-12">
+                    <div class="ui-g-2">
+                        <label for="nombres">MARCA</label>
+                    </div>
+                    <div class="ui-g-6">
+                        <input id="float-input" type="text"
+                            class="ui-inputtext ui-corner-all ui-state-default ui-widget" size="30" pInputText
+                            formControlName="marca">
+                    </div>
+                </div>
+            </div>
+            <div class="ui-grid-row">
+                <div class="ui-grid-col-2"></div>
+                <div class="ui-grid-col-6">
+                    <button pButton type="submit" label="Submit" [disabled]="frmProducto.invalid"></button>
+                </div>
+                <div class="ui-grid-col-4"></div>
+            </div>
+        </p-panel>
+    </form>
+
+    <br>
+    <p-toast [style]="{marginTop: '80px'}"></p-toast>
+    <p-confirmDialog [style]="{width: '30vw'}"></p-confirmDialog>
+
+    <div>
+        <p-table [columns]="columnas" [value]="productos" selectionMode="single" [(selection)]="productoSeleccionado"
+            (onRowSelect)="seleccionado()" [paginator]="true" [rows]="rows" [totalRecords]="totalData"
+            [rowsPerPageOptions]="[10,20,30]" [lazy]="true" (onLazyLoad)="CargaPeresoza($event)" [loading]="cargador"
+            [first]="first" [scrollable]="true" scrollHeight="400px">
+            <ng-template pTemplate="caption">
+                LISTA DE PRODUCTOS
+            </ng-template>
+            <ng-template pTemplate="header" let-columns>
+                <tr>
+                    <th *ngFor="let col of columns" [pSortableColumn]="col.field">
+                        {{col.header}}
+                        <p-sortIcon [field]="col.field"></p-sortIcon>
+                    </th>
+                    <th style="width:4em"></th>
+                    <th style="width:4em"></th>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-producto let-columns="columns">
+                <tr>
+                    <td *ngFor="let col of columns">
+                        {{producto[col.field]}}
+                    </td>
+                    <td style="width:4em">
+                        <button pButton icon="pi pi-search" class="ui-button-warning"
+                            (click)="editarFormulario(producto)"></button>
+                    </td>
+                    <td style="width:4em">
+                        <button pButton icon="pi pi-times" class="ui-button-danger"
+                            (click)="eliminarFormulario(producto)"></button>
+                    </td>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="summary" let-rowData>
+                <div style="text-align:center">
+                    <button type="button" pButton icon="pi pi-check" class="ui-button-success"
+                        (click)="abrirFormulario()" label="NUEVO PRODUCTO"></button>
+                </div>
+            </ng-template>
+        </p-table>
+    </div>
+    <p-footer>
+        <!-- <button pButton type="button" label="Save" icon="pi pi-check" style="margin-right: .25em"></button>
+            <button pButton type="button" label="Cancel" icon="pi pi-times" class="ui-button-secondary"></button> -->
+    </p-footer>
+</p-card>

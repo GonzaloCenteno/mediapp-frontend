@@ -1,0 +1,69 @@
+<p-card header="MANTENIMIENTO PERSONAS" subheader="LISTADO DE PERSONAS" styleClass="ui-card-content">
+    <p-header>
+        PERSONAS
+    </p-header>
+    <div>
+        <p-table [columns]="columnas" [value]="personas" selectionMode="single" [(selection)]="personaSeleccionada" (onRowSelect)="seleccionado()" [paginator]="true" [rows]="rows" [totalRecords]="totalData" [rowsPerPageOptions]="[10,20,30]" [lazy]="true" (onLazyLoad)="CargaPeresoza($event)" [loading]="cargador" [first]="first" [scrollable]="true" scrollHeight="400px">
+            <ng-template pTemplate="caption">
+                LISTA DE PERSONAS
+            </ng-template>
+            <ng-template pTemplate="header" let-columns>
+                <tr>
+                    <th *ngFor="let col of columns" [pSortableColumn]="col.field">
+                        {{col.header}}
+                        <p-sortIcon [field]="col.field"></p-sortIcon>
+                    </th>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-persona let-columns="columns">
+                <tr [pSelectableRowDblClick]="persona">
+                    <td *ngFor="let col of columns">
+                        {{persona[col.field]}}
+                    </td>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="summary" let-rowData>
+                <div style="text-align:center">
+                    <button type="button" pButton icon="pi pi-check" (click)="abrirNuevaPersona()"
+                        label="NUEVA PERSONA"></button>
+                </div>
+            </ng-template>
+        </p-table>
+    </div>
+    <p-footer>
+        <!-- <button pButton type="button" label="Save" icon="pi pi-check" style="margin-right: .25em"></button>
+        <button pButton type="button" label="Cancel" icon="pi pi-times" class="ui-button-secondary"></button> -->
+    </p-footer>
+</p-card>
+
+<p-toast [style]="{marginTop: '80px'}"></p-toast>
+
+<p-dialog header="DATOS PERSONA" [(visible)]="dialogoPersona" [maximizable]="true" [responsive]="true" showEffect="fade"
+    [modal]="true" [style]="{width: '300px'}">
+    <div class="ui-g ui-fluid" *ngIf="persona">
+        <div class="ui-g-12">
+            <div class="ui-g-4">
+                <label for="nombres">NOMBRES</label>
+            </div>
+            <div class="ui-g-8">
+                <input pInputText class="ui-inputtext ui-corner-all ui-state-default ui-widget" id="nombres"
+                    [(ngModel)]="persona.nombres" autocomplete="off" />
+            </div>
+        </div>
+        <div class="ui-g-12">
+            <div class="ui-g-4">
+                <label for="apellidos">APELLIDOS</label>
+            </div>
+            <div class="ui-g-8">
+                <input pInputText class="ui-inputtext ui-corner-all ui-state-default ui-widget" id="apellidos"
+                    [(ngModel)]="persona.apellidos" autocomplete="off" />
+            </div>
+        </div>
+    </div>
+    <p-footer>
+        <div class="ui-dialog-buttonpane ui-helper-clearfix">
+            <button type="button" pButton icon="pi pi-times" *ngIf="borrar" (click)="delete()" label="Delete"></button>
+            <button type="button" pButton icon="pi pi-check" (click)="save()" label="Save"></button>
+        </div>
+    </p-footer>
+</p-dialog>
